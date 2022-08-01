@@ -1,0 +1,70 @@
+//CSS Rest 방법
+1. 코드로 Reset
+https://meyerweb.com/eric/tools/css/reset/
+2. 인터넷 링크로 Reset
+https://cdnjs.com/libraries/meyer-reset
+
+//Chrome 확장 스토어
+https://chrome.google.com/webstore/search/color?hl=ko
+
+//Mozilla HTML 요소 참고서
+https://developer.mozilla.org/ko/docs/Web/HTML/Element
+
+//html-css-js 테스트
+https://html-css-js.com/
+
+//한국형 웹 콘텐츠 접근성 지침
+https://www.wah.or.kr:444/Participation/guide.asp
+
+// 스타일
+<h3 style="color: seagreen; font-size: 20px; text-align: center;">여러가지 스타일</h3>
+
+// 이미지
+https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png
+
+// 아이콘
+https://www.iconfinder.com/
+https://www.flaticon.com/
+
+// 이미지
+https://www.pinterest.co.kr/
+
+// layout
+https://webstyleguide.com/wsg3/6-page-structure/3-site-design.html
+
+// 블록요소
+https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+
+// input
+action : https://search.naver.com/search.naver
+
+// 멀티미디어
+https://developer.mozilla.org/ko/docs/Web/HTML/Element#%EC%9D%B4%EB%AF%B8%EC%A7%80_%EB%A9%80%ED%8B%B0%EB%AF%B8%EB%94%94%EC%96%B4
+
+// MIME 타입
+https://developer.mozilla.org/ko/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+
+// data-*
+https://developer.mozilla.org/ko/docs/Web/HTML/Global_attributes/data-*
+
+// entity
+https://www.w3schools.com/html/html_entities.asp
+
+// emoji
+https://www.w3schools.com/charsets/ref_emoji.asp
+
+// convention
+https://validator.w3.org/
+https://jeonghakhur.gitbooks.io/frontend-coding-convention/content/
+
+//애니메이션 효과 정리 사이트
+https://animate.style/
+
+// 미디어 쿼리
+https://developer.mozilla.org/ko/docs/Web/CSS/@media
+1. 반응형웹 : 디바이스 화면 크기에 따라 웹 페이지 표현방법이 바뀌는것
+  https://developer.mozilla.org/ko/docs/Web/CSS/Media_Queries/Using_media_queries
+2. 브레이크 포인트 : 디바이스 별로 적용하는 CSS를 나누는 분기점
+  https://www.bitdegree.org/learn/storage/media/images/3a40a9ef-ab2c-4c9d-89e8-b5c50315042d.png
+  https://mediaqueri.es/
+
