@@ -1,0 +1,270 @@
+2022.07.20
+
+
+// 자료 구조
+https://ko.wikipedia.org/wiki/%EC%9E%90%EB%A3%8C_%EA%B5%AC%EC%A1%B0
+
+// process status
+https://media.geeksforgeeks.org/wp-content/uploads/transitions.jpg
+
+// top
+NI : nice 프로세스의 우선순위(-20 ~ 19, default 10)
+   : -20이 우선순위가 가장 높음
+   : 일반 사용자는 우선 순위값을 낮출 수 없음
+   : ex) nice -n -20 ps -l
+   : ex) renice -n nice값 PID
+
+
+pstree : 프로세스간의 계층 구조를 출력하는 명령어
+	- -p : 각 프로세스의 PID를 함께 출력
+  
+free : 시스템의 메모리 정보를 출력하는 명령어
+	- -m : mb (b/k/m/g)
+	- -s{초} : 입력한 시간마다 free 실행(모니터링)
+
+// 포그라운드&백그라운드
+- jobs : 백그라운드 프로세스의 목록 확인(작업 번호) 명령어
+- fg 작업번호 : 백그라운드로 실행되고 있는 프로세스를 -> 포그라운드 방식으로 전환 명령어
+- bg 작업번호 : 수행이 멈추었던 백그라운드 프로세스를 다시 백그라운드 방식으로 실행 명령어
+
+
+
+
+
+[GRUB]
+- 리눅스 계열에서 가장 많이 사용하는 부트로더
+- GRUB2
+
+[복구 과정]
+-> 부팅 화면에서 e 입력
+-> ro를 rw로 변경, rhgb~ -> 삭제 후 init=/bin/sh
+-> # whoami : root
+-> # passwd : 
+
+[부팅 설정 값?]
+	- vi /etc/default/grub
+  
+[부팅 설정 값을 변경하고 나면?]
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+
+[부트로더 계정 설정?]
+vi /etc/grub.d/00_header
+
+맨 밑줄에 추가
+cat << EOF
+set superusers="busan"
+passwd grubuser 123456
+EOF
+
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+다시 응급 복구 모드로 실행
+
+// 
+shell : 사용자가 입력한 명령어 커널에게 전달될때 해석기
+- 해석기능, 프로그래밍 기능, 사용자 환경 변수 설정
+
+shell script : command line에서 특정 기능이 수행되도록
+							 지정된 스크립트(명령어 집합)
+	- 장점 : 다른 언어보다 빠르게 동작함
+	- 단점 : 복잡함, 어려움
+
+
+
+echo "두 수를 입력받아 곱셉/나눗셈/평균 계산"
+echo "첫번째 수 : "
+read num1
+echo "두번째 수 : "
+read num2
+echo "-----------"
+mul=`expr $num1 \* $num2`
+echo $mul
+div=`expr $num1 / $num2`
+echo $div
+avg=`expr \( $num1 + $num2 \) / 2`
+echo $avg
+
+
+
+// 파라미터(parameter, 매개변수)
+echo "파라미터테스트"
+echo "------------"
+echo "첫번째 파일이름 : <$0>:"
+echo "두번째 파라미터 : <$1>"
+echo "세번째 파라미터 : <$2>"
+echo "전체 파라미터 : <$*>"
+echo "------------"
+exit 0
+
+// 조건
+if [ 조건 ]
+then
+	조건이 참일경우 실행될 명령어 문장
+fi
+vi
+
+
+// 숫자를 비교하는 경우
+변수1-gt변수2 : 변수 1이 변수 2보다 크다
+변수1-ge변수2 : 변수 1이 변수 2보다 크거나 같다
+변수1-lt변수2 : 변수 1이 변수 2보다 작다
+변수1-le변수2 : 변수 1이 변수 2보다 작거나 같다
+
+// 파일을 비교하는 경우
+-d파일이름 : 주어진 파일이 디렉터리이면 참
+-e파일이름 : 주어진 파일이름이 존재하면 참
+-f파일이름 : 주어진 파일이 일반 파일이면 참
+-r파일이름 : 주어진 파일을 읽을 수 있으면 참
+-w파일이름 : 주어진 파일을 쓸 수 있으면 참
+-x파일이름 : 주어진 파일을 실행 할 수 있으면 참
+-s파일이름 : 주어진 파일의 크기 0이 아니면 참
+-u파일이름 : 주어진 파일이름이 set-user-id가 설정이 되면 참
+-g파일이름 : 주어진 파일이름이 set-group-id가 설정이 되면 참
+
+// if_file.sh
+#! /bin/sh
+
+echo "파일 조건 판별"
+echo "--------------"
+echo "파일이름 : [/lib/systemd/system/httpd.service]"
+echo "파일조건 : [-f&f_name]"
+f_name=/lib/systemd/system/httpd.service
+if [ -f$f_name ]
+then
+ echo "주어진 파일은 일반 파일"
+else
+ echo "주어진 파일은 일반 파일이 아님"
+fi
+
+exit 0
+
+// case~esac
+case 파라미터 또는 입력값
+ 조건1)
+  조건1에 해당하는 실행 명령 
+ 조건2)
+ 	조건2에 해당하는 실행 명령
+ *)
+  앞의 모든 조건에 부합하지 않은 경우 실행 명령
+esac
+  
+#! /bin/sh
+
+echo "계절 판별(Spring/Summer/Fall/Winter)"
+case "$1" in
+ Spring)
+  echo "봄";;
+ Summer)
+  echo "여름";;
+ *)
+  echo "잘못된 값을 입력"
+esac
+
+exit 0
+
+
+
+// 반복문
+// for ~ in
+// ver1
+for((초기값;조건식;증감값))
+do
+  조건이 참일 동안 수행되는 명령
+done
+
+// ver2
+for 변수 in seq 초기값 마지막값
+do
+  조건이 참일 동안 수행되는 명령
+done
+
+// ver3
+for 변수 in 값1, 값2, ....
+do
+  조건이 참일 동안 수행되는 명령
+done
+
+#! /bin/sh
+
+echo "for문 1~10까지 누적 결과 출력"
+
+sum=0
+
+for((num=1;num<=10;num++))
+do
+ sum=`expr $sum + $num`
+echo "1부터 $num까지 중간 합산 결과 : $sum"
+done
+
+echo "1부터 10까지 누적된 결과 : $sum"
+
+exit 0
+
+// while
+while [조건식]
+do
+ 조건식이 참일 경우 실행되는 문장
+done
+
+// while_test.sh
+#! /bin/sh
+
+echo "while문 1~10까지 누적 결과 출력"
+
+sum=0
+num=1
+
+while [ $num -le 10 ]
+do
+ sum=`expr $sum + $num`
+ echo "1부터 $num까지 중간 합산 결과 : $sum"
+ num=`expr $num + 1`
+done
+
+echo "1부터 10까지 누적된 결과 : $sum"
+
+exit 0
+
+=========================================
+[최종 실습 예제]
+1. 혈액형 구분 프로그램
+:1) abo.sh 
+2) 입력값 $1
+3) 혈액형 입력 A, B, O, AB (대소문자 구별 없이)
+4) 혈액형 이외의 값은 다시 입력할 수 있도록 지정
+5) 해당 혈액형이 맞다면 -> "xxx형을 선택했습니다."
+
+2. while문을 사용해서 비밀번호 일치 여부 판정 프로그램
+1) 키보드로 비밀번호를 입력 받는다
+2) passwd 변수에 저장한다
+ 3-1) while 조건에서 비밀번호가 linux2022일때 반복문이 종료가 된다
+ 3-2) 일치하는 비밀번호를 입력한 경우 해당 비밀번호와 함께 "확인되었습니다" 라는 문구를 출력한다
+ 3-3) 만약에 비밀번호가 linux2022로 일치하지 않는다면 "다시 입력해주세요"라는 문구를 출력한다
+=============================================
+
+// awk 사용 참고 주소
+https://recipes4dev.tistory.com/171
+
+리눅스 쉘에서 소수점 표시방법 입니다.  awk 사용 했습니다.
+echo "첫 번째 값 : "
+read num1
+echo "두 번째 값 : "
+read num2
+echo "평균 결과 : "
+avg=`expr  \( $num1 + $num2 \) / 2`
+avg2=$( echo $num1 $num2 2 | awk '{printf "%.2f", ( $1 + $2 ) / $3}' )
+
+echo $avg
+echo $avg2
+
+======= 결과 입니다.
+첫 번째 값 :
+10
+두 번째 값 :
+5
+평균 결과 :
+7
+7.50
+
+$1 = $num1		$2 = $num2		$3 = 2 에 해당하는 값 입니다.

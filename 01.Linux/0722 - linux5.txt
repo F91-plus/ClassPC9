@@ -1,0 +1,74 @@
+2022.07.22
+
+// Virtual Box 네트워크 종류
+1. NAT 
+10.0.2.15
+
+
+
+
+
+// yum
+
+. /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.332.b09-1.el7_9.x86_64
+// JAVA_HOME 환경변수 지정
+#vi /etc/profile
+
+맨 밑에 입력 후 저장
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.332.b09-1.el7_9.x86_64
+
+
+
+// 방화벽
+systemctl status firewalld.service
+
+// ssh 설정 과정(설정 파일 변경(네트워크 포트) -> service 구동 -> 방화벽 open 및 확인)
+1) vi /etc/ssh/sshd_config
+2) more /etc/services | grep ssh
+3) clear
+4) systemctl restart sshd.service
+5) clear
+6) firewall-cmd --permanent --zone=public --add-port=22/tcp
+7) firewall-cmd --reload
+8) netstat -nlpt | grep LISTEN
+9) clear
+10) netstat -nlpt | grep ssh
+11) clear
+12) firewall-cmd --list-all
+
+
+
+	
+
+
+
+
+-- git
+https://twofootdog.tistory.com/42
+
+
+
+
+
+
+
+
+
+
+1)git config --unset user.name
+2)git config --unset user.email
+3)git config --global user.email "alsdnr3009@gmail.com"
+4)git config --global user.name "POVIEA"
+5)git config --list
+6)git remote add origin 
+7)git push -u origin master
+
+-- gitignore
+https://www.toptal.com/developers/gitignore
+
+
+
+
+
+
+

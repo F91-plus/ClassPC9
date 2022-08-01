@@ -1,0 +1,34 @@
+linux 설치 방법 (var 진흥원 교육)
+MobaX, CentOS7.iso, VirtualBox
+MobaX 는 VirtualBox 실행 되면 연결해서 MobaX에서 작업함
+
+VirtualBox 환경설정
+CentOS7 선택해서 설치하고  환경 변수에서 서버 OSI 인가로 설정하고 파일~영어4개로 된 이름 까지 선택 후 설치했음
+
+쉘 스크립트
+	명령어
+		break
+		continue
+
+	함수
+		정의
+		호출
+		예제
+	
+리눅스 쉘 명령어
+	입, 출력 전환
+	표준 출력 전환
+	파일 백업과 압축
+
+쉘 스크립트의 동작 구조
+	명령어
+		df
+		blkid
+
+RPM 패키지
+
+Git
+	git bash
+		branch		master, test 서로 다른 작업장을 가짐 = 작업장 바꾸면 파일도 바뀜
+		checkout
+

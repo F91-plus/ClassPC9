@@ -1,0 +1,47 @@
+http -> https -> HSTS
+HTTP3 (QUIC)
+
+04. 프로토콜
+프로토콜
+ - 네트워크 내의 컴퓨터들끼리 통신을 효율적으로 하기 위한 여러 가지 규칙
+ - 데이터의 포맷과 전송에 대한 것들을 정의
+ - 구문, 의미, 타이밍으로 구성됨
+
+Ethernet
+ - OSI 계층 중 물리 계층과 데이터 링크 계층의 형식을 정의
+ - LAN, MAN, WAN 기술
+
+Ethernet 구조
+ - Preamble : 프레임 전송 시작을 나타냄
+ - SOF(SFD) : frame 시작을 알림, 1byte
+ - 목적지 주소 : MAC 주소임
+ - 출발지 주소 : Source address MAC 주소임
+ - Type (length) : 상위 프로토콜의 종류를 나타냄 / 값이 1500 이상 = 상위 프로토콜 종류 , 1500 이하 = 데이터 필드의 길이 표시
+ - Data : 상위 계층에서 받은 캡슐화 된 데이터 (패킷)
+ - FCS (Frame Check Sequence) : 오류 검출용, 에러 발생 여부 확인, 목적지~데이터 필드 까지
+
+ARP (Address Resolution Protocol)
+ - 논리주소 -> 물리주소
+ - 메커니즘 : 하위 계층 프로토콜과 주소 지정 메커니즘으 사용함
+ - cache에 목적지 IP 주소, MAC 주소 여부 확인, 없을 경우 ARP request를 broadcast 로 전송
+ - replay의 정보를 수신 시 data encapsulation 적용, cache에 저장
+ - 일정 시간 통신 없으면 정보 삭제
+
+ - Hardware address length : mac 주소
+ - Protocol address length : IP 주소길이
+
+RARP (reverse ARP)
+ - 물리 주소 -> 논리 주소
+
+IP 프로토콜
+ - TCP/IP 프로토콜 계층의 네트워크 계층에서 사용하는 프로토콜
+ - 전송은 하지만 전송 완료까지는 보장하지 않음
+
+연결형 서비스
+ - TCP 방식
+
+비연결형 서비스
+ - UDP 방식
+
+TCP Header 구조
+Push : 데이터를 보낼 때 같이 붙음 Push

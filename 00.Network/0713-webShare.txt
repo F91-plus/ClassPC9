@@ -1,0 +1,110 @@
+DNS 서버 이해
+
+거의 대부분의 운영체제는   1. cache , 2. hosts file , 3. DNS server 순으로 정보를 받아 온다. 
+
+1. 실습은  cache 된 dns 정보를 삭제 하고  nslookup 으로  domain 정보를 호출(재귀질의, 정방향 조회)
+하여 네트워크 정보를 분석 하는 실습
+
+C:\WINDOWS\system32>ipconfig /displaydns
+Windows IP 구성
+    fp.msedge.net
+    ----------------------------------------
+    데이터 이름 . . . . . : fp.msedge.net
+    데이터 유형 . . . . . : 5
+    TTL(Time To Live) . : 31
+    데이터 길이 . . . . . : 8
+    섹션 . . . . . . . : 응답
+    CNAME 레코드  . . . . : 1.perf.msedge.net
+
+    데이터 이름 . . . . . : 1.perf.msedge.net
+    데이터 유형 . . . . . : 5
+    TTL(Time To Live) . : 31
+    데이터 길이 . . . . . : 8
+    섹션 . . . . . . . : 응답
+    CNAME 레코드  . . . . : a-0019.a-msedge.net
+
+    데이터 이름 . . . . . : a-0019.a-msedge.net
+    데이터 유형 . . . . . : 5
+    TTL(Time To Live) . : 31
+    데이터 길이 . . . . . : 8
+    섹션 . . . . . . . : 응답
+    CNAME 레코드  . . . . : a-0019.a.dns.azurefd.net
+
+    데이터 이름 . . . . . : a-0019.a.dns.azurefd.net
+    데이터 유형 . . . . . : 5
+    TTL(Time To Live) . : 31
+    데이터 길이 . . . . . : 8
+    섹션 . . . . . . . : 응답
+    CNAME 레코드  . . . . : a-0019.standard.a-msedge.net
+
+    데이터 이름 . . . . . : a-0019.standard.a-msedge.net
+    데이터 유형 . . . . . : 1
+    TTL(Time To Live) . : 31
+    데이터 길이 . . . . . : 4
+    섹션 . . . . . . . : 응답
+    (호스트) 레코드 . . . : 204.79.197.222
+......
+
+C:\WINDOWS\system32>ipconfig /flushdns
+Windows IP 구성
+DNS 확인자 캐시를 플러시했습니다.
+C:\WINDOWS\system32>ipconfig /displaydns
+Windows IP 구성
+
+C:\WINDOWS\system32>nslookup naver.com
+서버:    dns.google
+Address:  8.8.8.8
+
+권한 없는 응답:
+이름:    naver.com
+Addresses:  223.130.195.200
+          223.130.195.95
+          223.130.200.104
+          223.130.200.107
+
+
+wireshark 를 이용해서  sniffer 한 정보에 (display  filter 부분은 dns 로 필터링) dns 정보가 나오는 것을 확인
+
+---------------------------------------------------------------------------------
+2.  C:\Windows\System32\drivers\etc\hosts  파일을 수정 하여
+
+특정 사이트에 대한 domain 지정
+
+
+간혹 개발테스트 단계에서  임의 domain 을 hosts 파일에 지정해서 호출 시 사용할 수 있음
+
+------------------------------------------------------------------------------------
+C:\WINDOWS\system32>nslookup
+기본 서버:  dns.google
+Address:  8.8.8.8
+
+> server 168.126.63.1
+기본 서버:  kns.kornet.net
+Address:  168.126.63.1
+
+> daum.net
+서버:    kns.kornet.net
+Address:  168.126.63.1
+
+권한 없는 응답:
+이름:    daum.net
+Addresses:  211.249.220.24
+          121.53.105.193
+
+참고 - nslookup 활용
+https://www.lesstif.com/system-admin/nslookup-20775988.html
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+Port.txt
+
+https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
+
+Port numbers are assigned in various ways, based on three ranges: 
+System Ports (0-1023),   - root / admin  권한으로 프로그램을 바인딩( 앞에 있는 권한으로 프로그램을 실행 시킴을 의미)
+User Ports (1024-49151), - 사용자 권한으로 프로그램을 바인딩 
+and the Dynamic and/or Private Ports (49152-65535);  - C/S 구조에서 client 측 에 할당되는 포트
+the different uses of these ranges are described in [RFC6335].
+
+	 2 ^ 16 
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+https://wiki.wireshark.org.DisplayFilters

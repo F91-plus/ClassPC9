@@ -1,0 +1,164 @@
+0. 서비스 정보
+- windows 
+C:\Windows\System32\drivers\etc\services
+# Copyright (c) 1993-2004 Microsoft Corp.
+....
+ftp-data           20/tcp                           #FTP, data
+ftp                21/tcp                           #FTP. control
+ssh                22/tcp                           #SSH Remote Login Protocol
+telnet             23/tcp
+smtp               25/tcp    mail                   #Simple Mail Transfer Protocol
+....
+- Linux 
+/etc/services
+[root@centos7 ~]# more /etc/services
+# /etc/services:
+# $Id: services,v 1.55 2013/04/14 ovasik
+ftp-data        20/tcp
+ftp-data        20/udp
+# 21 is registered to ftp, but also used by fsp
+ftp             21/tcp
+ftp             21/udp          fsp fspd
+ssh             22/tcp                          # The Secure Shell (SSH) Protocol
+ssh             22/udp                          # The Secure Shell (SSH) Protocol
+telnet          23/tcp
+telnet          23/udp
+# 24 - private mail system
+lmtp            24/tcp                          # LMTP Mail Delivery
+lmtp            24/udp                          # LMTP Mail Delivery
+smtp            25/tcp          mail
+smtp            25/udp          mail
+
+
+1. DNS
+- cache ->  hosts 파일 ->  지정된 DNS 
+# cache 확인 [windows]
+C:\Users\금정산2_강사PC31>ipconfig /displaydns
+
+# cache 초기화 [windows]
+C:\Users\금정산2_강사PC31>ipconfig /flushdns
+C:\Users\금정산2_강사PC31>ipconfig /displaydns
+
+# hosts  파일 
+- windows 
+C:\Windows\System32\drivers\etc\hosts
+- Linux
+/etc/hosts
+
+- 1차 domain   .com, .net .kr. jp .org .in
+- 2차 domain   .co.kr  .go.kr .ac.kr  .pe
+
+# 지정된 DNS 확인
+- windows 
+C:\Users\금정산2_강사PC31>nslookup
+- Linux
+[centos@centos7 ~]$ cat /etc/resolv.conf
+
+# 순환질의 
+- https://www.zonecut.net/dns/
+- (naver.com  정방향 조회) ->  지정된 DNS (8.8.8.8) - > root.domain 에게 질의 (1차 domain  을 연결 시켜주는 domain name server 정보만 앎)
+    -> .com 을 연결 시켜 주는 네임 서버 정보를 확인 하고  naver.com 의 네임 서버를 질의  -> naver.com 네임버서에게 naver.com IN ip 정보 획득
+
+확인 해보기 터미널 창에서 ssh 또는 telnet 으로 접속 후  입력
+[centos@centos7 ~]$ dig @8.8.8.8 naver.com +trace | more
+
+=========================================================       
+# 재귀질의 
+- 위 순환질의로 알게된 naver.com 의 ip 를  요청한 PC에게 다시 전달 
+- nslookup naver.com 8.8.8.8
+
+C:\Users\금정산2_강사PC31>nslookup naver.com 8.8.8.8
+
+- 정방향조회 (  domain -> ip  를 질의 )
+- 역방향조회 (  ip  -> domain 를 질의 )
+
+#왜   기업은 DNS 를 가지려 하는가?
+- 1. caching name server 구성을 통해  네트워크 트래픽 양을 줄임
+- 2. 기업의 새로운 서브 도메인 생성 또는 내부 사용자에게만 할당하는 임의 도메인 생성 까지 
+      좀더 생산적으로 컴스텀 해서 사용할 수 있다.
+
+=========================================================
+2. 터미널 서비스
+# telnet   TCP  23 port 
+  암호화가 되어 있지 않은 서비스 
+  암호화 문제도 있지만  실제 telnet  서비스가 동작 하는 방식에도 문제가 있어서 현재는 사용하지 않는 추세
+  만약 기업에서 개발자에게 telnet 서비스를 오픈해서 제공한다면  작업환경을 반드시  신뢰할 수 있는 네트워크 환경에서 
+  접속하는 것을 권장 
+  
+- windows 
+제어판 -> 프로그램 및 기능 -> windows 기능 켜기/끄기 -> 텔넷 클라이언트  활성화 
+( 단 cmd 창이 오픈되어 있거나  터미널이 오픈 되어 있으면  오픈 된 터미널과 cmd 창은 다시 창을 닫고 실행해야 적용됨)
+
+# 터미널 접속 도구
+- Xshell
+- Windows terminal
+Microsoft app  에서 Windows terminal 검색 후 설치 
+
+- IDE 를 이용한 접속
+vscode 는  기본적으로 터미널 접속 환경을 제공 
+
+#ssh
+- 암호화 부분에서 설명
+
+=========================================================
+파일 전송, 공유 서비스  ( 디렉토리 서비스 )
+- NFS, NIS
+  mount 를 통해서 공유한 자원을 사용하는 서비스 
+  windows 의 mount point 는 drive (ex : c 드라이브, d 드라이브) 
+  linux 의 mount point  directory 인데  보통 linux unix  계열 시스템에서 
+  자원 공유된 NFS 서비스는 mount 를 통해 활용
+  이해가 안된다면 동일 한것은 아니지만  one drive 나 구글 드라이브 프로그램 설치 해서 
+  PC 에서 각 드라이브로 접근 해서 자원을 이용하는 것으로 이해 해도 됨.,.
+
+- AD(Active Directory)
+- LDAP
+   Directory 서비스 ( 디레토리 구조의 문서 배열을 하여 자원을 공유) 에서 
+    자격증명을 더한 서비스 
+   기업의 중요 자원을  자격증명을 통해 접근(권한 부여) 하여 자원을 활용 하는 서비스
+
+- FTP
+파일 전송 프로토콜 서비스
+인증 port  21, data port (active mode 20, passive mode  지정된 범위의 port를 할당 받음)
+https://medium.com/@yuanyifang/ftp-active-passive-and-nat-88a704a8451b
+https://miro.medium.com/max/1050/1*yyyR4y2MDi3O7_NeUmiGjw.png
+
+#active mode 장점 / 단점
+- 장점 : data 전송 시 20 port  하나로만 진행 하기 때문에 port 낭비를 줄일 수 있다.
+- 단점 : client 의 네트워크 환경을 고려하지 않고 만든 방식이기 때문에  NAT 환경의 client 
+           는 21 port 로 접속가능 하지만 데이터 전송이 되지 않는 다. 
+
+#passive mode 장점 / 단점
+- 장점: client 네트워크 환경 제약 없이 데이터 전송을 할 수 있다.
+- 단점: 접속하는 client 마다 데이터 전송 시 port 를 할당 하기 때문에  다수의 접속 시 port 
+          정보가 낭비된다.
+
+cmd 에서
+c:\>ftp 192.168.40.31
+로그인
+ls 목록 확인
+get 파일명
+다운
+quit
+
+와이어 샤크 (출발, 도착 포트번호 표시)
+에디트 - 프리퍼런스 - 어피어런스 - 컬럼 - + - 2개 넣음 - 이름 변경(S_Port, D_Port) - 타입 변경 (Src-un, Dest-un) - 순서 조정 - 확인
+
+=========================================================
+웹서비스 
+- 웹 서비스 구조 이해
+- IIS , Apache, Nginx, Tomcat
+- web server와 WAS 의  차이 
+
+=========================================================
+암호화 
+- 대칭형
+- 비대칭형
+- hash
+
+=========================================================
+암호화 서비스
+- SSH
+- SSL/TLS
+- VPN
+
+=========================================================

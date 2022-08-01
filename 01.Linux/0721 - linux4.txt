@@ -1,0 +1,323 @@
+02022.07.21
+
+// func_test.sh
+#!/bin/sh
+
+echo "함수 생성 및 활용"
+
+add()
+{
+total=`expr $1 + $2`
+echo "연산 결과 : $num1 + $num2 = $total"
+}
+
+echo "두 수를 입력해주세요"
+echo "첫번째 수 입력"
+ read num1
+echo "두번쨰 수 입력"
+ read num2
+ add $num1 $num2
+
+exit 0
+
+
+// 
+eval : 문자열을 명령문으로 인식
+#!/bin/sh
+
+echo "문자열을 명령문으로 인식 eval"
+echo "문자열로 인식"
+filename="ls /tmp"
+echo $filename
+
+echo "명령문으로 인식 eval"
+eval $filename
+
+exit 0
+
+// printf_test.sh
+#!/bin.sh
+
+echo "키보드로 실수를 입력 및 출력"
+echo "실수를 입력하세요"
+ read float_num
+echo "문자열로 값을 입력해주세요"
+ read input_str
+
+echo "실수의 출력형태 지정"
+printf "%5.2f \n " $float_num
+echo "-------------------"
+
+echo "문자열 출력형식 지정"
+printf "%s \n " "$input_str"
+printf "%s \n " $input_str
+
+// print_date.sh
+#!/bin/sh
+
+echo "set과 $로 명령어 형식 지정"
+echo "오늘의 날짜 출력 : $(date)"
+set $(date)
+echo "오늘의 요일 출력 : $4 요일"
+
+exit 0
+
+// 실습
+set & $(명령어)
+
+오늘의 연도($1) 출력 : 2022 년도
+월($2)일($3) 출력 : 7월 21일
+
+
+// 입출력 재지정(I/O Redirection)
+// 표준 입력(stdin) : 0
+// 표준 출력(stdout): 1
+// 표준 에러(stderr): 2
+
+// 명령 문자
+& : 명령을 백그라운드에서 실행
+$ : 변수에 접근 가능
+; : 명령의 끝
+# : 주석(명령 코드의 설명, 코드 실행이 되지 않음)
+
+// 파일 압축
+-tar 압축 
+	- -f : 대상 tar 아카이브 지정(기본 옵션)
+  - -c : 기존의 아카이브를 덮어 쓰기, 압축(compress)
+  - -v : 처리되는 과정을 상세하게 나열
+
+-.gz 압축
+	- tar -zcvf 압축파일명.tar.gz 폴더
+  - tar -zxvf 해제파일명.tar.gz
+
+-zip 압축
+	- zip
+  - unzip 파일명.zip
+
+- xz 압축
+	-xz 파일명
+  -xz -d 해제파일명
+
+// 단일성 혹은 주기적으로 프로그램 관리
+1. at : 단일(일회성) 프로세스 실행 예약어
+	 - at 시간지정[hh:mm yyyy-mm-dd]
+	 	- at now + 3 minutes -f *.sh
+   	- at now + 3 minutes 명령어 입력 후 ctrl + d로 종료
+
+<EOT> : End Of Trasmission
+at -l : 예약작업 확인 명령어
+	-> 실제 작업 내용을 확인하기 위해서는 cat /var/spool/at/생성된 작업파일
+atrm 예약작업번호 : 예약작업 삭제 명령어
+at -d 작업번호 : 해당 작업을 삭제 명령어
+at -c 작업번호 : 해당 작업에 등록된 내용 출력 명령어
+
+2. crontab : 주기적으로 프로세스를 실행 예약어
+https://crontab.guru/
+
+crontab -e : 크론탭을 통해 예약 작업 등록 명령어
+crontab -l : 등록된 예약 작업 목록 확인 명령어
+crontab -r : 예약 작업을 삭제하는 명령어
+
+
+
+? 매분마다 실행 지정? 
+* * * * *
+
+? 매주 금요일 오전 5시 30분에 test.sh 실행??
+30 5 * * 5 test.sh
+
+? 매일 매시간 정각, 20분, 40분에 test.sh 실행??
+00,20,40 * * * * test.sh
+
+? 매일 1시 정각~1시 30분까지 매 분 test.sh 실행??
+00-30 1 * * * test.sh
+
+? 10일~11일 까지 2시, 4시 매10분마다 test.sh 실행??
+*/10 2,4 10-11 * * test.sh
+
+// 논리적 볼륨
+https://www.ibm.com/docs/ko/aix/7.2?topic=storage-logical-volume-concepts
+
+fdisk -l
+fdisk /dev/sda
+[root@localhost ~]# fdisk /dev/sda
+Welcome to fdisk (util-linux 2.23.2).
+
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): d
+Partition number (1,2, default 2): 2
+Partition 2 is deleted
+
+Command (m for help): n
+Partition type:
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended
+Select (default p): p
+Partition number (2-4, default 2): 2
+First sector (2099200-41943039, default 2099200):
+Using default value 2099200
+Last sector, +sectors or +size{K,M,G} (2099200-41943039, default 41943039)
+Using default value 41943039
+Partition 2 of type Linux and of size 19 GiB is set
+
+Command (m for help): w
+
+#reboot
+#pvresize /dev/sda2
+#pvscan
+
+
+
+
+// RPM
+RPM : 소프트웨어 업데이터 패키지 중에 하나
+
+yum update
+yum list : 패키지 목록 출력 명령어
+yum search [패키지명] : 찾고자 하는 패키지를 검색하는 명령어
+yum list "http" : http를 포함하고 있는 패키지관련 목록을 전부 출력
+	- 구체적으로 출력이 잘 안됨...
+
+yum install 패키지명1, 패키지명2, ... : 해당 패키지 설치 명령어
+
+
+// git
+https://git-scm.com/
+https://desktop.github.com/
+https://www.sourcetreeapp.com/
+
+
+[Git Bash 실습]
+
+버전 확인
+$ git version
+git 초기 설정
+$ git config name, email 설정
+git commit, git push 할때마다 계정정보 입력을 생략
+
+--global 전역
+$ git config --global user.name ""
+$ git config --global user.email ""
+
+--local 반들어진 저장소 우선순위 높은 계정
+$ git config --local user.name ""
+$ git config --local user.email ""
+
+git config 정보 확인
+$ git config --list
+
+git name, email 초기화
+$ git config --unset user.name
+$ git config --unset user.email
+
+(global로 설정했을 경우 초기화)
+$ git config --unset --global user.name
+$ git config --unset --global user.email
+
+git config 정보 확인
+$ git config --list
+
+작업 영역으로 이동하기
+$ cd C:/dev/0.git
+
+작업 영역으로 잘 이동했는지 확인
+$ pwd
+
+작업 영역 초기화
+$ git init
+
+현재 상태 확인
+$ git status
+
+해당 작업 영역에 start.txt 파일 생성 및 내용 작성 후 상태 확인
+$ git status
+
+스테이지 영역으로 올리기
+$ git add start.txt
+
+add 이후 현재 상태 확인
+$ git status
+
+스테이지 영역에 올라간 상태 확인 후 저장 영역으로 올리기
+$ git commit -m "add start.txt"
+
+현재 상태 확인
+$ git status
+
+기록 확인하기 (Author 확인하기!)
+$ git log
+
+작업 영역에 test.txt 파일 생성 및 내용 작성, start.txt에 새로운 내용 추가 후 상태 확인
+$ git status
+
+test.txt 파일 스테이지 영역으로 올리기
+$ git add test.txt
+
+현재 상태 확인하기
+$ git status
+
+내용 추가된 start.txt 스테이지 영역으로 올리기
+$ git add start.txt
+
+현재 상태 확인하기
+$ git status
+
+스테이지 영역에 올라간 상태 확인 후 저장 영역으로 올리기
+$ git commit -m "add test.txt"
+
+기록 확인하기
+$ git log
+
+// 실습
+$ git status
+
+1. 작업영역에서 start.txt 파일 생성 -> start 내용 작성
+2. test.txt 파일 생성 -> test 내용 작성
+3. test2.txt 파일 생성 -> test 내용 작성
+
+4. 새로 생성된 파일 모두를 스테이지 영역 올리기
+$ git add .
+$ git status
+
+5. 커밋 메세지로 add start.txt test.txt test2.txt 작성 후 저장 영역 올리기
+$ git commit -m "add start.txt test.txt test2.txt"
+$ git log
+	
+현재 브랜치 확인하기
+$ git branch
+$ git branch -v
+
+새 브랜치 만들기
+$ git branch test
+
+브랜치 삭제 (삭제를 위해서는 다른 브랜치로 전환해야함)
+$ git branch -d test
+
+새 브랜치 생성 확인 및 버젼 확인하기
+$ git branch
+$ git branch -v
+
+생성 브랜치로 전환 후 확인하기
+$ git checkout test
+$ git branch -v
+
+test 브랜치에 test3.txt 파일 생성, test3 내용 추가 및 start.txt에 내용 추가하기
+현재 상태 확인하기
+$ git status
+
+test3.txt 파일을 스테이지 영역에 올린 후, 커밋하여 저장 영역으로 올리기
+$ git add test3.txt
+$ git commit -a -m "add test3.txt"
+$ git log
+
+master 브랜치로 전환 후 브랜치 확인하기
+$ git checkout master
+$ git branch -v
+
+master 브랜치에서 test 브랜치의 내용을 합치기 (merge)
+$ git merge test
+$ git branch -v
+$ git log

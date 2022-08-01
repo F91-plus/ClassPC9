@@ -1,0 +1,83 @@
+프로세스와 서비스
+ - 프로세스
+	정의
+	관리
+	상태 전이
+		포 그라운드 / 백 그라운드
+		프로세스 번호
+		작업 번호
+		부모 프로세스 / 자식 프로세스
+		좀비 프로세스
+	명령어
+		ps	-a	-e	-f	-r
+		ps | grep @
+		pgrep
+		kill	-2	-9	-15
+		top
+		pstree	-p
+		free	-m (b/k/m/g)	-s(초)
+		jobs
+		
+ - 서비스
+	정의
+	명령어
+		cd /usr/lib/systemd/system
+		ls *.service
+		systemctl (상태) (파일)
+ - GRUB
+	root 계정 잃어버렸을때 복구 방법
+	부팅 화면에서 e
+	r\o -> r\w 
+	swap 다음인 rhgb 부터 UTF-8 까지 삭제후 init=/bin/bash 입력
+	ctrl + x
+	whoami : root
+	passwd : 새 번호 입력
+
+부팅 설정 값 변경
+	 - vi /etc/default/grub
+	이 후
+	grub2-mkconfig -o /boot/grub2/grub.cfg
+	입력하면 리눅스가 변경값을 읽는다.
+
+특정 사용자만 루트 값 변경하게 만듬!	다음은 예시 id와 pw
+	vi /etc/grub.d/00_header 파일로 들어가서
+	맨 밑에서
+	cat << EOF
+	set superusers="busan"
+	passwd grubuser 123456
+	EOF
+		= busan pw : 123456 유저만 root 값 변경이 가능함
+
+자료구조 (종류 알고 있기)
+
+ - 쉘
+	정의
+	기능
+	명령어
+		echo
+		sh (파일)
+
+ - shell script (정의 / 장점 / 단점)
+	숫자 계산
+
+
+
+리눅스 쉘에서 소수점 표시방법 입니다.  awk 사용 했습니다.
+echo "첫 번째 값 : "
+read num1
+echo "두 번째 값 : "
+read num2
+echo "평균 결과 : "
+avg=`expr  \( $num1 + $num2 \) / 2`
+avg2=$( echo $num1 $num2 2 | awk '{printf "%.2f", ( $1 + $2 ) / $3}' )
+
+echo $avg
+echo $avg2
+
+첫 번째 값 :
+10
+두 번째 값 :
+5
+평균 결과 :
+7
+7.50
